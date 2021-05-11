@@ -1,0 +1,13 @@
+.game15 {
+  .game-title {
+    font-size: rem(48px);
+    font-weight: 600;
+  }
+
+  .big-text {
+    font-size: rem(48px);
+    font-weight: 600;
+  }
+
+  @import "../../components/organisms/Board/Board";
+}

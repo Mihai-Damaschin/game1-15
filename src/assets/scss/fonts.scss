@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "Celia Garcia";
+  src: url("../fonts/Celia_Garcia.ttf") format("opentype");
+}
+
+@mixin celiaGarcia {
+  font-family: "Celia Garcia", sans-serif;
+  font-weight: 400;
+}

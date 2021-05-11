@@ -1,0 +1,19 @@
+$font-family: "Roboto Regular", sans-serif;
+$font-weight-base: 400;
+
+$gutter-size: 16px;
+
+$mq-breakpoints: (
+  mobile: 320px,
+  small-tablet: 480px,
+  sm: 608px,
+  tablet: 640px,
+  small-desktop: 768px,
+  md: 817px,
+  desktop: 1024px,
+  lg: 1024px,
+  xl: 1260px,
+  wide: 1280px,
+  xxl: 1400px,
+  extra-wide: 1600px,
+);

@@ -1,0 +1,41 @@
+@import "fonts";
+@import "variables";
+@import "mixin";
+
+// react-ebs-ui config
+@import "config";
+
+@import "../../../node_modules/@ebs-integrator/react-ebs-ui/dist/styles/index";
+
+// features
+@import "src/features/game15/pages/Game15Page/Game15Page";
+
+.d-flex {
+  display: flex;
+}
+
+@keyframes example {
+  from {
+    width: 2%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.game15 {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  @include celiaGarcia;
+}
+
+.row {
+  margin: 0;
+}
