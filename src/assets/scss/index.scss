@@ -14,15 +14,6 @@
   display: flex;
 }
 
-@keyframes example {
-  from {
-    width: 2%;
-  }
-  to {
-    width: 100%;
-  }
-}
-
 .game15 {
   min-height: 100%;
 }
@@ -38,4 +29,8 @@ body {
 
 .row {
   margin: 0;
+
+  > .col {
+    padding: 0;
+  }
 }

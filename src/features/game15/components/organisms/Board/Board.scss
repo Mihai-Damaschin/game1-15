@@ -9,19 +9,42 @@
       border-radius: rem(10px);
       background-color: rgba(0, 0, 0, 0.11);
       margin: rem(10px);
-      flex: 1 1;
-      width: rem(100px);
-      height: rem(100px);
+      flex: 1 0 auto;
+      //max-width: rem(100px);
+      //max-height: rem(100px);
+      height: rem(75px);
+      width: rem(75px);
       font-size: rem(36px);
       font-weight: 600;
       color: black;
+      position: relative;
 
-      &.active {
+      &.filled {
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: rgba(255, 255, 165, 1);
-        cursor: pointer ;
+        cursor: pointer;
+      }
+
+      &.active {
+        animation-name: example;
+        animation-duration: 1s;
+
+        @keyframes example {
+          0% {
+            transform: scale(0.1, 0.1);
+          }
+          25% {
+            transform: scale(1.2, 1.2);
+          }
+          50% {
+            transform: scale(0.8, 0.8);
+          }
+          100% {
+            transform: scale(1, 1);
+          }
+        }
       }
     }
   }

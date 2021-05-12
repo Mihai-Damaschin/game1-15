@@ -1,7 +1,7 @@
 import { Col, Row, Stepper } from "@ebs-integrator/react-ebs-ui";
 import { Board } from "../../components/organisms/Board/Board";
 import { useStateHandlers } from "hooks";
-import { useCallback } from "react";
+import { useRef } from "react";
 
 export interface GamesSizes {
   rows: number;
@@ -20,12 +20,11 @@ const Game15Page = () => {
   });
 
   const onRowsChange = (rows?: string | number) =>
-    setState({ rows: Number(rows) });
+    setState({ rows: Number(rows), moves: 0 });
   const onColumnsChange = (columns?: string | number) =>
-    setState({ columns: Number(columns) });
-  const onIncreaseMoves = useCallback(
-    () => setState((prevState) => ({ moves: ++prevState.moves })),
-    []
+    setState({ columns: Number(columns), moves: 0 });
+  const onIncreaseMoves = useRef(() =>
+    setState((prevState) => ({ moves: ++prevState.moves }))
   );
 
   return (
@@ -34,13 +33,17 @@ const Game15Page = () => {
         <Row className="justify-content--center">
           <Col>
             <Row className="game-title">
-              <Col size={6}>Jocul 15</Col>
-              <Col size={6}>Moves: {state.moves}</Col>
+              <Col size={6} className="d-flex justify-content--end px-10">
+                Jocul 15
+              </Col>
+              <Col size={6} className="px-10">
+                Moves: {state.moves}
+              </Col>
             </Row>
           </Col>
         </Row>
         <Row className="justify-content--center my-30">
-          <Col>
+          <Col className="px-30">
             <Stepper
               min={3}
               max={100}
@@ -49,7 +52,7 @@ const Game15Page = () => {
               onChange={onRowsChange}
             />
           </Col>
-          <Col>
+          <Col className="px-30">
             <Stepper
               min={3}
               max={100}
@@ -59,17 +62,17 @@ const Game15Page = () => {
             />
           </Col>
         </Row>
-        <Row>
-          <Col className="d-flex justify-content--center">
-            {state.rows > 0 && state.columns > 0 && (
-              <Board
-                sizes={{ rows: state.rows, columns: state.columns }}
-                onIncreaseMoves={onIncreaseMoves}
-              />
-            )}
-          </Col>
-        </Row>
       </Col>
+      <Row>
+        <Col className="d-flex justify-content--center">
+          {state.rows > 0 && state.columns > 0 && (
+            <Board
+              sizes={{ rows: state.rows, columns: state.columns }}
+              onIncreaseMoves={onIncreaseMoves.current}
+            />
+          )}
+        </Col>
+      </Row>
     </Row>
   );
 };

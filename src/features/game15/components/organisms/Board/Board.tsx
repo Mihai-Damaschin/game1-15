@@ -1,11 +1,19 @@
-import { Button, Icon, Modal, Row, Space } from "@ebs-integrator/react-ebs-ui";
 import { useCallback, useEffect } from "react";
+import {
+  Button,
+  Col,
+  Icon,
+  Modal,
+  Row,
+  Space,
+} from "@ebs-integrator/react-ebs-ui";
 import { GamesSizes } from "../../../pages/Game15Page/Game15Page";
 import { useStateHandlers } from "../../../../../hooks";
 
 interface CellProps {
   id: number;
   key: number;
+  filled: boolean;
   active: boolean;
 }
 
@@ -34,7 +42,8 @@ export const Board = ({
           Array.from({ length: sizes.columns }, () => ({
             key: key++,
             id: length - key,
-            active: key !== length,
+            filled: key !== length,
+            active: false,
           }))
         ).flat(),
       });
@@ -42,14 +51,14 @@ export const Board = ({
 
     setInitialCells();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sizes]);
+  }, [sizes.rows, sizes.columns]);
 
   useEffect(() => {
     if (state.cells[length - 2]?.id === 8 && !state.showModal) {
       let isCorrectAnswer = 1;
 
       state.cells.map((i, key) => {
-        if (i.id !== key + 1 && i.active) {
+        if (i.id !== key + 1 && i.filled) {
           isCorrectAnswer = 0;
         }
 
@@ -65,9 +74,9 @@ export const Board = ({
 
   const onCellClick = useCallback(
     (cell: CellProps) => {
-      const localCells = state.cells;
+      const localCells = state.cells.map((i) => ({ ...i, active: false }));
 
-      const emptyCell = localCells.find((i) => !i.active);
+      const emptyCell = localCells.find((i) => !i.filled);
 
       if (
         emptyCell &&
@@ -76,10 +85,14 @@ export const Board = ({
           cell.key === emptyCell.key - sizes.columns ||
           cell.key === emptyCell.key + sizes.columns)
       ) {
-        localCells[emptyCell.key] = { ...cell, key: emptyCell.key };
+        localCells[emptyCell.key] = {
+          ...cell,
+          key: emptyCell.key,
+          active: true,
+        };
         localCells[cell.key] = { ...emptyCell, key: cell.key };
 
-        // onIncreaseMoves();
+        onIncreaseMoves();
 
         setState({ cells: localCells });
       }
@@ -118,20 +131,24 @@ export const Board = ({
       )}
 
       <div className="game-container">
-        <div className="cells-wrapper">
+        <div
+          className="cells-wrapper"
+          style={{ width: `${(75 + 20) * sizes.columns + 52}px` }}
+        >
           <Row>
-            {state.cells.map((i) => (
-              <div
-                className={`game-cell ${i.active ? "active" : ""}`}
-                key={i.id}
-                style={{
-                  flexBasis: `${100 / sizes.columns - 3}%`,
-                }}
-                onClick={() => onCellClick(i)}
-              >
-                <>{i.active && i.id}</>
-              </div>
-            ))}
+            <Col className="d-flex flex--wrap">
+              {state.cells.map((i) => (
+                <div
+                  className={`game-cell ${i.filled ? "filled" : ""} ${
+                    i.active ? "active" : ""
+                  }`}
+                  key={i.id}
+                  onClick={() => onCellClick(i)}
+                >
+                  <>{i.filled && i.id}</>
+                </div>
+              ))}
+            </Col>
           </Row>
         </div>
       </div>
